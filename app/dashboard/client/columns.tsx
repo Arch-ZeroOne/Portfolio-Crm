@@ -13,10 +13,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 //* Defiinition of the column structure
 export type Payment = {
-  id: string;
-  amount: number;
   status: "pending" | "processing" | "success" | "failed";
   email: string;
+  project_type_id: number;
+  message: string;
+  appointment: string;
 };
 
 // todo Learn and document how this works
@@ -36,13 +37,17 @@ export const columns: ColumnDef<Payment>[] = [
     },
   },
   {
-    accessorKey: "amount",
-    header: "Amount",
+    accessorKey: "client_email",
+    header: "Client Email",
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "project_type_id",
+    header: "Project Type",
   },
+  { accessorKey: "message", header: "Message" },
+  { accessorKey: "appointment", header: "Appointment" },
+  { accessorKey: "status", header: "Status" },
+
   {
     id: "actions",
     cell: ({ row }) => {
@@ -56,7 +61,7 @@ export const columns: ColumnDef<Payment>[] = [
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent className="w-56" align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
             <DropdownMenuSeparator />

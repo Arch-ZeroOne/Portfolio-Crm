@@ -11,3 +11,75 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Project {
+  project_id   Int         @id @default(autoincrement())
+  project_name String
+  type_id      Int
+  techStacks   TechStack[]
+}
+
+model Technology {
+  technology_id   Int         @id @default(autoincrement())
+  technology_name String
+  created_at      DateTime
+  updated_at      DateTime
+  techStacks      TechStack[]
+}
+
+model ProjectType {
+  type_id   Int        @id @default(autoincrement())
+  type_name String
+  //* Is a field needed for prisma know the relationship from this field to a specific field represnted in prisma with these
+  requests  Requests[]
+  meetings  Meetings[]
+}
+
+model TechStack {
+  project_id    Int
+  technology_id Int
+
+  //* Connects the two foreign keys to the two tables
+  //* Tells where those fields points
+  project    Project    @relation(fields: [project_id], references: [project_id])
+  technology Technology @relation(fields: [technology_id], references: [technology_id])
+
+  requestsTechnology_id Int?
+
+  //* Allows multiple primary key
+  @@id([project_id, technology_id])
+}
+
+model Requests {
+  request_id      Int         @id @default(autoincrement())
+  client_email    String
+  project_type_id Int
+  project_type    ProjectType @relation(fields: [project_type_id], references: [type_id])
+  message         String?
+  appointment     DateTime
+  status          String      @default("Pending")
+  client_id       Int
+  client          Client      @relation(fields: [client_id], references: [client_id])
+  created_at      DateTime
+  updated_at      DateTime
+}
+
+model Client {
+  client_id    Int        @id @default(autoincrement())
+  client_email String
+  requests     Requests[]
+  meetings Meetings[]
+}
+
+model Meetings {
+  meeting_id      Int         @id @default(autoincrement())
+  client_email    String
+  project_type_id Int
+  project_type    ProjectType @relation(fields: [project_type_id], references: [type_id])
+  appointment_date DateTime
+  appointment_time DateTime
+  client_id Int
+  client Client @relation(fields: [client_id],references: [client_id])
+  created_at DateTime
+  updated_at DateTime
+}
