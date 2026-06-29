@@ -19,9 +19,31 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Leaf, Plus } from "lucide-react";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -49,7 +71,7 @@ export function DataTables<TData, TValue>({
 
   return (
     <>
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 w-full justify-around">
         <Input
           placeholder="Filter emails..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
@@ -58,6 +80,37 @@ export function DataTables<TData, TValue>({
           }
           className="max-w-sm"
         />
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button size="lg">
+              New Request <Plus />
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add Request Form</DialogTitle>
+            </DialogHeader>
+            <div className="flex flex-col">
+              <Label>Client Email</Label>
+              <Input placeholder="email@example.com" />
+              <Label>Project Type</Label>
+              <Select>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Pick Project Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="1">Landing Page</SelectItem>
+                    <SelectItem value="2">Fullstack Application </SelectItem>
+                    <SelectItem value="3">IOT Project</SelectItem>
+                    <SelectItem value="4">Web Project</SelectItem>
+                    <SelectItem value="5">Console Based Project</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
       <div className="overflow-hidden rounded-md border w-full mt-4">
         <Table>

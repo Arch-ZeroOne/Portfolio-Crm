@@ -12,33 +12,22 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 //* Defiinition of the column structure
-export type Payment = {
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
-  project_type_id: number;
-  message: string;
-  appointment: string;
-};
-
+import { Requests } from "@/logic/types/requests";
 // todo Learn and document how this works
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Requests>[] = [
   {
-    accessorKey: "email",
+    accessorKey: "client_email",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          Client Email
+          <ArrowUpDown />
         </Button>
       );
     },
-  },
-  {
-    accessorKey: "client_email",
-    header: "Client Email",
   },
   {
     accessorKey: "project_type_id",
@@ -47,6 +36,9 @@ export const columns: ColumnDef<Payment>[] = [
   { accessorKey: "message", header: "Message" },
   { accessorKey: "appointment", header: "Appointment" },
   { accessorKey: "status", header: "Status" },
+  { accessorKey: "client_id", header: "Client Id" },
+  { accessorKey: "created_at", header: "Request Date" },
+  { accessorKey: "updated_at", header: "Completed Date" },
 
   {
     id: "actions",
